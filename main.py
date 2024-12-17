@@ -146,7 +146,6 @@ if uploaded_pdf is not None:
             n_results=9
         )['documents'][0]
 
-        st.session_state.chroma_client.delete_collection("document")
 
         prompt = ChatPromptTemplate.from_template(
             """
