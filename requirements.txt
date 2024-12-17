@@ -7,3 +7,4 @@ pdfplumber
 pandas
 PyMuPDF
 Pillow
+pysqlite3-binary
