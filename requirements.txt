@@ -6,3 +6,4 @@ chromadb
 pdfplumber
 pandas
 PyMuPDF
+Pillow
