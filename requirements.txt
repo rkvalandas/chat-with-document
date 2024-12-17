@@ -2,7 +2,7 @@ streamlit
 langchain
 langchain-community
 langchain-groq
-chromadb==0.4.20
+chromadb
 pdfplumber
 pandas
 PyMuPDF
