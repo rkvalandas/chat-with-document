@@ -14,7 +14,7 @@ import sys
 sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 import chromadb
 
-groq.api_key = "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"
+groq.api_key = st.secrets["GROQ_API_KEY"]
 
 # Disable parallelism for HuggingFace tokenizers
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
