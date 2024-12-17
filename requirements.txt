@@ -1,5 +1,5 @@
 streamlit==1.35.0
-langchain==
+langchain
 langchain_core
 langchain-community==0.2.12
 langchain-groq===0.1.9
