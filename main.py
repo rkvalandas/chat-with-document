@@ -1,6 +1,5 @@
 import streamlit as st
 import os
-from langchain_community.vectorstores import Chroma
 import groq
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
