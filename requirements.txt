@@ -4,7 +4,6 @@ langchain-community
 langchain-groq
 chromadb
 pdfplumber
-pandas
 PyMuPDF
 Pillow
 pysqlite3-binary

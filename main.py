@@ -13,11 +13,14 @@ import sys
 import pysqlite3
 sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 import chromadb
+from database import Vectordb
 
 groq.api_key = st.secrets["GROQ_API_KEY"]
 
 # Disable parallelism for HuggingFace tokenizers
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
+vectordb = Vectordb()
 
 # Helper functions
 def encode_image(image_bytes):
@@ -120,42 +123,51 @@ if uploaded_pdf is not None:
         extracted_data = extract_pdf_text_and_images(pdf_path)
         st.session_state.extracted_data = extracted_data  # Store the extracted data in session_state
 
+        # Delete the PDF file after extracting data
+        if os.path.exists(pdf_path):  # Check if the file exists
+            os.remove(pdf_path)
+        else:
+            st.warning("Temporary file not found.")
+
+        vectordb.delete_all_collections()
         # Add data to ChromaDB
         st.write("Adding data to ChromaDB...")
-        st.session_state.chroma_client = chromadb.PersistentClient("vectordb")
-        st.session_state.collection = st.session_state.chroma_client.get_or_create_collection(name="document")
-        for page in extracted_data:
-            data = f"Page_Number: PAGE {page['page_number']}\n\n Page_Image_Description: {page['images']}\n\n TABLE: Table {page['tables']}\n\n Page_Text: {page['text']}\n\n"
-            st.session_state.collection.add(
-                documents=[data],
-                metadatas={"page_number": f"page {page['page_number']}"},
-                ids=[f"doc_{page['page_number']}"]
-            )
+        st.session_state.collection = vectordb.load_data(st.session_state.extracted_data)
         st.success("Data successfully added to ChromaDB!")
+
+# Ensure the extracted data is loaded into the session state
+if 'extracted_data' in st.session_state:
+    extracted_data = st.session_state.extracted_data
 
     # Query section
     st.subheader("Query the extracted data")
     query = st.text_input("Enter your query")
 
     if st.button("Run Query"):
-        llm = ChatGroq(model="llama-3.3-70b-versatile", api_key=groq.api_key)
+        if 'collection' in st.session_state:
+            llm = ChatGroq(model="llama-3.3-70b-versatile", api_key=groq.api_key)
 
-        # Execute the query on the collection
-        page = st.session_state.collection.query(
-            query_texts=[query],
-            n_results=9
-        )['documents'][0]
+            # Execute the query on the collection
+            page = st.session_state.collection.query(
+                query_texts=[query],
+                n_results=9
+            )['documents'][0]
+
+            prompt = ChatPromptTemplate.from_template(
+                """
+                ### PAGE CONTENT:
+                {page}
+                ### INSTRUCTION:
+                You are an assistant tasked with providing relevant information from the above page content based on the following query: {query}.
+                ### (NO PREAMBLE):
+                """
+            )
+            query_chain = prompt | llm | StrOutputParser()
+            query_result = query_chain.invoke({"page": page, "query": query})
+            st.write("Query Result", query_result)
+        else:
+            st.warning("No collection found. Please upload a PDF first.")
+else:
+    st.warning("No PDF data extracted. Please upload a PDF.")
 
 
-        prompt = ChatPromptTemplate.from_template(
-            """
-            ### PAGE CONTENT:
-            {page}
-            ### INSTRUCTION:
-            You are an assistant tasked with providing relevant information from the above page content based on the following query: {query}.
-            ### (NO PREAMBLE):
-            """
-        )
-        query_chain = prompt | llm | StrOutputParser()
-        query_result = query_chain.invoke({"page": page, "query": query})
-        st.write("Query Result", query_result)
