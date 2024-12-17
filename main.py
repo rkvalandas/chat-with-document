@@ -10,9 +10,6 @@ from io import BytesIO
 from PIL import Image
 import base64
 import chromadb
-from dotenv import load_dotenv
-
-load_dotenv()
 
 groq.api_key = st.secrets["GROQ_API_KEY"]
 
