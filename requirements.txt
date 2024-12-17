@@ -2,7 +2,7 @@ streamlit
 langchain
 langchain-community
 langchain-groq
-chromadb==0.5.0
+chromadb
 fitz
 pdfplumber
-pandas==2.0.2
+pandas
