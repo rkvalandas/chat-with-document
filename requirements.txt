@@ -3,5 +3,5 @@ langchain
 langchain-community
 langchain-groq
 chromadb
-PyMuPDF
 fitz
+pdfplumber
