@@ -9,12 +9,9 @@ import pdfplumber
 from io import BytesIO
 from PIL import Image
 import base64
-import pysqlite3
-import sys
-sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 import chromadb
 
-groq.api_key = st.secrets["GROQ_API_KEY"]
+groq.api_key = "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"
 
 # Disable parallelism for HuggingFace tokenizers
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
