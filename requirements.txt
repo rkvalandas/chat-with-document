@@ -5,3 +5,4 @@ langchain-groq
 chromadb==3.35.0
 fitz
 pdfplumber
+pandas==2.0.2
