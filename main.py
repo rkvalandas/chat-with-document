@@ -9,6 +9,9 @@ import pdfplumber
 from io import BytesIO
 from PIL import Image
 import base64
+import pysqlite3
+import sys
+sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 import chromadb
 
 groq.api_key = st.secrets["GROQ_API_KEY"]
@@ -119,7 +122,7 @@ if uploaded_pdf is not None:
 
         # Add data to ChromaDB
         st.write("Adding data to ChromaDB...")
-        st.session_state.chroma_client = chromadb.Client()
+        st.session_state.chroma_client = chromadb.PersistentClient()
         st.session_state.collection = st.session_state.chroma_client.get_or_create_collection(name="document")
         for page in extracted_data:
             data = f"Page_Number: PAGE {page['page_number']}\n\n Page_Image_Description: {page['images']}\n\n TABLE: Table {page['tables']}\n\n Page_Text: {page['text']}\n\n"
