@@ -5,3 +5,4 @@ langchain-groq
 chromadb
 pdfplumber
 pandas
+PyMuPDF
