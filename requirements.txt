@@ -2,6 +2,6 @@ streamlit
 langchain
 langchain-community
 langchain-groq
-chromadb==0.5.0
+chromadb==3.35.0
 fitz
 pdfplumber
