@@ -2,7 +2,7 @@
 
 This project is a **Streamlit-based web application** that extracts data (text, tables, and images) from PDF files. It uses **Groq's LLaMA models** to analyze and extract structured information from images, and **ChromaDB** for storing and querying extracted content. 
 
- ## Checkout the live demo here: [Price Pulse Live](https://chat-with-document1.streamlit.app/)
+ ## Checkout the live demo here: [Chat-with-document](https://chat-with-document1.streamlit.app/)
 
 ---
 
