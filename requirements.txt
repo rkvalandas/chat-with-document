@@ -10,3 +10,4 @@ tiktoken
 transformers
 sentence-transformers
 accelerate
+pypdf
