@@ -2,8 +2,8 @@ streamlit
 langchain
 langchain-community
 langchain-groq
-chromadb
-pdfplumber
-PyMuPDF
-Pillow
-pysqlite3-binary
+langchain-huggingface
+langgraph
+pydantic
+transformers
+sentence-transformers

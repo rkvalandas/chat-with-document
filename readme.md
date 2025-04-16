@@ -1,142 +1,102 @@
-# PDF Data Extractor and Query System
+# PDF Document Query System
 
-This project is a **Streamlit-based web application** that extracts data (text, tables, and images) from PDF files. It uses **Groq's LLaMA models** to analyze and extract structured information from images, and **ChromaDB** for storing and querying extracted content. 
+A powerful application that allows you to chat with your PDF documents using advanced AI technologies. Upload any PDF document and ask questions about its content in natural language.
 
- ## Checkout the live demo here: [Chat-with-document](https://chat-with-document1.streamlit.app/)
+## Features
 
----
+- **PDF Processing**: Upload and process PDF documents of any size
+- **Natural Language Queries**: Ask questions about your document in plain English
+- **Accurate Answers**: Get precise answers with relevant context from the document
+- **Source Transparency**: View the exact sections of the document used to generate answers
+- **Efficient Processing**: PDFs are processed only once after upload, not with each query
 
-## Features 🚀
+## Technology Stack
 
-1. **PDF Upload and Data Extraction**:
-   - Upload a PDF file to the application.
-   - Extract text, tables, and image data from each page of the PDF.
+This application leverages state-of-the-art technologies:
 
-2. **AI-Powered Image Analysis**:
-   - Uses **Groq's LLaMA Vision model** to analyze images extracted from the PDF pages.
-   - Structured data is extracted from tables, graphs, and other visual content.
+- **Streamlit**: For the interactive web interface
+- **LangChain**: For orchestrating the RAG workflow
+- **LangGraph**: For creating a structured retrieval and generation pipeline
+- **HuggingFace Embeddings**: Using the "thenlper/gte-large" model for semantic understanding
+- **Groq LLM**: Using Llama 4 models for high-quality answer generation
+- **PyPDF Loader**: For extracting text from PDF documents
+- **Vector Storage**: For efficient semantic search capabilities
 
-3. **Data Storage with ChromaDB**:
-   - Extracted content is stored in a **ChromaDB collection** for querying.
+## How It Works
 
-4. **Intelligent Query System**:
-   - Users can input queries to search and retrieve relevant information from the PDF data.
-   - Responses are generated with the help of **Groq's LLaMA-3 models**.
+The application uses a Retrieval Augmented Generation (RAG) approach:
 
-5. **Dynamic Cleanup**:
-   - ChromaDB collections are cleaned up after querying for efficiency.
+1. **Document Processing**:
+   - When you upload a PDF, the document is processed and converted to vector embeddings
+   - The embeddings capture the semantic meaning of the document's content
+   - The processed document is stored in-memory for quick retrieval
 
----
+2. **Query Processing**:
+   - When you ask a question, the system finds the most relevant sections from your document
+   - These sections are used as context for the AI to generate accurate answers
+   - The system ranks and sorts results by page number for better context coherence
 
-## Tech Stack 🛠️
+3. **Answer Generation**:
+   - A Llama 4 model from Groq evaluates your question against the retrieved context
+   - The model generates a precise answer based solely on the document's content
+   - You can view both the answer and the source context used to generate it
 
-- **Python**: Core programming language
-- **Streamlit**: Web framework for building interactive UI
-- **Groq API**: LLaMA-3 models for image and text processing
-- **pdfplumber**: Extracts text and tables from PDFs
-- **PyMuPDF (fitz)**: Extracts images from PDF files
-- **Pillow**: Image processing library
-- **ChromaDB**: Vector database for storage and querying
+## Getting Started
 
----
+### Prerequisites
 
-## Installation 🛠️
+- Python 3.9 or higher
+- Groq API key
 
-1. Clone this repository:
+### Installation
 
-   ```bash
-   git clone https://github.com/rkvalandas/chat-with-document.git
+1. Clone the repository
+   ```
+   git clone <repository-url>
    cd chat-with-document
    ```
 
-2. Create a virtual environment and install dependencies:
-
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+2. Install the required packages
+   ```
    pip install -r requirements.txt
    ```
 
-3. Add **GROQ API Key** to your Streamlit secrets:
-
-   - Run this command:
-
-     ```bash
-     streamlit secrets set GROQ_API_KEY "your-groq-api-key"
+3. Set up your Groq API key
+   - Create a `.streamlit/secrets.toml` file with your API key:
+     ```
+     GROQ_API_KEY = "your-api-key-here"
      ```
 
-4. Run the application:
+### Running the Application
 
-   ```bash
-   streamlit run app.py
-   ```
+```
+streamlit run app.py
+```
 
----
+## Usage
 
-## How It Works 🔍
+1. **Upload a PDF**: Use the file uploader to select your PDF document
+2. **Ask a Question**: Type your question in the text input field
+3. **View the Answer**: The system will display the answer based on the document content
+4. **Explore Context**: Expand the "Show source context" section to see which parts of the document were used
 
-1. **Upload PDF**:
-   - The application accepts a PDF file.
-   - Text, tables, and images are extracted page by page.
+## Limitations
 
-2. **Image Analysis**:
-   - Extracted images are encoded to Base64 and sent to the **Groq Vision model**.
-   - The model returns structured data for any tables, graphs, or diagrams.
+- The application works best with text-based PDFs; scanned documents may not process correctly
+- Very large PDFs may take longer to process initially
+- The quality of answers depends on the clarity and structure of the source document
 
-3. **Data Storage**:
-   - The extracted data is stored in a **ChromaDB collection** for efficient querying.
+## Future Improvements
 
-4. **Query Data**:
-   - Users can input natural language queries.
-   - The application retrieves relevant information from the stored data and uses **Groq LLaMA-3 models** to generate a detailed response.
+- Support for additional document formats (DOCX, TXT, etc.)
+- Multi-document querying
+- Persistent storage for processed documents
+- Chat history to maintain conversation context
 
----
 
-## Usage Instructions 📋
+## Acknowledgements
 
-1. Upload your PDF file via the Streamlit interface.
-2. Wait for data extraction and ChromaDB setup to complete.
-3. Enter a query in the query box and click **Run Query**.
-4. View the AI-generated response based on the PDF content.
-
----
-
-## Example Workflow 🧩
-
-1. **Upload**: Upload a sample PDF file containing text, tables, and images.
-2. **Data Extraction**:
-   - Extracted Text: "Page 1: Introduction to AI..."
-   - Extracted Table: "Row 1: Data1, Data2..."
-   - Extracted Image Analysis: "Graph showing yearly trends..."
-3. **Query**: Enter "What are the key trends in the graph?".
-4. **Result**: "The key trends in the graph show an increase in revenue from 2020 to 2023."
-
----
-
-## Dependencies 📦
-
-- `streamlit`
-- `groq`
-- `langchain`
-- `chromadb`
-- `pdfplumber`
-- `PyMuPDF`
-- `Pillow`
-
----
-
-## Future Improvements 🌟
-
-- Support for multiple PDFs.
-- Enhanced error handling and progress tracking.
-- Integration with other vector databases.
-
----
-
-## License 📜
-
-This project is licensed under the MIT License.
-
----
-
-**Happy Querying! 🎉**
+- [LangChain](https://github.com/langchain-ai/langchain) for the RAG implementation
+- [Groq](https://groq.com/) for the powerful LLM API
+- [HuggingFace](https://huggingface.co/) for the embedding models
+- [Streamlit](https://streamlit.io/) for the web interface framework
