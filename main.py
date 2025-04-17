@@ -14,9 +14,9 @@ from langgraph.graph import START, StateGraph
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 # Setup LangSmith for tracing
-os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_API_KEY"] = st.secrets["LANGCHAIN_API_KEY"]
-os.environ["LANGCHAIN_PROJECT"] = "RAG Application"
+os.environ["LANGSMITH_TRACING_V2"] = "true"
+os.environ["LANGSMITH_API_KEY"] = st.secrets["LANGCHAIN_API_KEY"]
+os.environ["LANGSMITH_PROJECT"] = "RAG Application"
 
 # Define the RAG state structure
 class RAGState(TypedDict):
