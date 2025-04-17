@@ -15,7 +15,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 # Setup LangSmith for tracing
 os.environ["LANGSMITH_TRACING_V2"] = "true"
-os.environ["LANGSMITH_API_KEY"] = st.secrets["LANGCHAIN_API_KEY"]
+os.environ["LANGSMITH_API_KEY"] = st.secrets["LANGSMITH_API_KEY"]
 os.environ["LANGSMITH_PROJECT"] = "RAG Application"
 
 # Define the RAG state structure
