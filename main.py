@@ -13,6 +13,11 @@ from langgraph.graph import START, StateGraph
 # Set TOKENIZERS_PARALLELISM to False to avoid deadlocks and warnings
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+# Setup LangSmith for tracing
+os.environ["LANGCHAIN_TRACING_V2"] = "true"
+os.environ["LANGCHAIN_API_KEY"] = st.secrets["LANGCHAIN_API_KEY"]
+os.environ["LANGCHAIN_PROJECT"] = "RAG Application"
+
 # Define the RAG state structure
 class RAGState(TypedDict):
     """State for the RAG application."""
